@@ -42,5 +42,5 @@ Feita com Laravel 12 + Vue.js (Inertia.js).
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/bet-control-center.git
+git clone https://github.com/lucas-macedo-dev/bet-control-center.git
 cd bet-control-center
