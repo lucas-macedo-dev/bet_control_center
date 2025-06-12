@@ -1,7 +1,26 @@
-<script>
-  import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head, useForm, router } from '@inertiajs/vue3';
+
+const form = useForm({
+  valor_apostado: null,
+  valor_retorno: null,
+  descricao: '',
+});
+
+const submit = () => {
+  form.post(route('bets.store'), {
+    onSuccess: () => {
+      form.reset();
+      router.visit(route('dashboard'));
+    },
+  });
+};
 </script>
+
 <template>
+
+  <Head title="Nova Aposta" />
   <AuthenticatedLayout>
     <div class="p-6 max-w-2xl mx-auto">
       <h1 class="text-2xl font-bold mb-6">Cadastrar Nova Aposta</h1>
@@ -32,26 +51,6 @@
     </div>
   </AuthenticatedLayout>
 </template>
-
-<script setup>
-import { useForm } from '@inertiajs/vue3';
-import { router } from '@inertiajs/vue3';
-
-const form = useForm({
-  valor_apostado: null,
-  valor_retorno: null,
-  descricao: '',
-});
-
-const submit = () => {
-  form.post(route('bets.store'), {
-    onSuccess: () => {
-      form.reset();
-      router.visit(route('dashboard'));
-    },
-  });
-};
-</script>
 
 <style scoped>
 .btn-primary {

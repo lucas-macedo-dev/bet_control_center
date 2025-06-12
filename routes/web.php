@@ -1,24 +1,27 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BetController;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-use Inertia\Inertia;
+use App\Http\Controllers\Api\V1\BetController;
 
 
-Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->prefix('bets')->group(function () {
-    Route::get('create', [BetController::class, 'create'])->name('bets.create');
-    Route::post('/', [BetController::class, 'store'])->name('bets.store');
+Route::controller(DashboardController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/dashboard', 'index')->name('dashboard');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::controller(BetController::class)->group(function () {
+        Route::get('/bets/list', 'index')->name('bets.list');
+        Route::get('/bets/create', 'create')->name('bets.create');
+        Route::get('/bets/reports', 'index')->name('bets.reports');
+    });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
