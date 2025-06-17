@@ -20,7 +20,6 @@ export default {
 
 
     plugins: [
-        forms,
-        require('tailwindcss-primeui')
+        forms, require("tailgrids/plugin"),
     ],
 };

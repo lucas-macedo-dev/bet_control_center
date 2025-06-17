@@ -19,8 +19,10 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(BetController::class)->group(function () {
         Route::get('/bets/list', 'index')->name('bets.list');
+        Route::get('/bets/show/id', 'show')->name('bets.show');
         Route::get('/bets/create', 'create')->name('bets.create');
         Route::get('/bets/reports', 'index')->name('bets.reports');
+        Route::post('/bets/store', 'store')->name('bets.store');
     });
 });
 

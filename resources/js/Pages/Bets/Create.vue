@@ -3,9 +3,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
 
 const form = useForm({
-  valor_apostado: null,
-  valor_retorno: null,
-  descricao: '',
+  bet_value: null,
+  value_received: null,
+  description: '',
 });
 
 const submit = () => {
@@ -27,20 +27,20 @@ const submit = () => {
 
       <form @submit.prevent="submit" class="space-y-6">
         <div>
-          <label class="block mb-1 font-semibold" for="valor_apostado">Valor Apostado (R$)</label>
-          <input type="number" id="valor_apostado" v-model.number="form.valor_apostado"
+          <label class="block mb-1 font-semibold" for="bet_value">Valor Apostado (R$)</label>
+          <input type="number" id="bet_value" v-model.number="form.bet_value"
             class="w-full border-gray-300 rounded-xl shadow" step="0.01" required />
         </div>
 
         <div>
-          <label class="block mb-1 font-semibold" for="valor_retorno">Valor Recebido (R$)</label>
-          <input type="number" id="valor_retorno" v-model.number="form.valor_retorno"
+          <label class="block mb-1 font-semibold" for="value_received">Valor Recebido (R$)</label>
+          <input type="number" id="value_received" v-model.number="form.value_received"
             class="w-full border-gray-300 rounded-xl shadow" step="0.01" required />
         </div>
 
         <div>
-          <label class="block mb-1 font-semibold" for="descricao">Descrição (opcional)</label>
-          <input type="text" id="descricao" v-model="form.descricao" class="w-full border-gray-300 rounded-xl shadow"
+          <label class="block mb-1 font-semibold" for="description">Descrição (opcional)</label>
+          <input type="text" id="description" v-model="form.description" class="w-full border-gray-300 rounded-xl shadow"
             maxlength="255" />
         </div>
 

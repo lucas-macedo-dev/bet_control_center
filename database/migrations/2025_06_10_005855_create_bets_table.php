@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('bets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->decimal('valor_apostado', 10, 2);
-            $table->decimal('valor_retorno', 10, 2);
-            $table->string('descricao')->nullable();
+            $table->decimal('bet_value', 10, 2);
+            $table->decimal('value_received', 10, 2);
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

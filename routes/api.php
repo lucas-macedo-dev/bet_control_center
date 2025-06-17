@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\BetController;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Middleware\GeneralLogs;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -17,8 +18,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/user', [AuthController::class, 'me']);
         Route::post('/logout', [AuthController::class, 'logout']);
 
-
-
-        Route::apiResource('bets', BetController::class);
+        // Route::apiResource('bets', BetController::class);
     });
 });

@@ -1,11 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
 
 const page = usePage();
-const stats = page.props.stats || { total_apostado: 0, total_recebido: 0 };
-const prejuizo = computed(() => stats.total_apostado - stats.total_recebido);
+const stats = page.props.stats || { bet_value: 0, value_received: 0 , loss : 0};
 </script>
 
 <template>
@@ -15,28 +13,28 @@ const prejuizo = computed(() => stats.total_apostado - stats.total_recebido);
   <AuthenticatedLayout>
     <template #header>
 
-      <div v-if="$page.props.auth.user" class="space-y-6">
+      <div v-if="$page.props.auth.user" class="p-6 space-y-6">
+        <div class="flex justify-end space-x-4">
+          <Link class="btn btn-primary" :href="route('bets.create')">Reportar Nova Aposta</Link>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="bg-white rounded-2xl p-6 shadow">
             <h2 class="text-lg font-semibold text-gray-700">Total Apostado</h2>
-            <p class="text-3xl font-bold text-blue-600">R$ {{ stats.total_apostado }}</p>
+            <p class="text-3xl font-bold text-blue-600">R$ {{ stats.bet_value }}</p>
           </div>
           <div class="bg-white rounded-2xl p-6 shadow">
             <h2 class="text-lg font-semibold text-gray-700">Total Recebido</h2>
-            <p class="text-3xl font-bold text-green-600">R$ {{ stats.total_recebido }}</p>
+            <p class="text-3xl font-bold text-green-600">R$ {{ stats.value_received }}</p>
           </div>
           <div class="bg-white rounded-2xl p-6 shadow">
             <h2 class="text-lg font-semibold text-gray-700">Prejuízo</h2>
-            <p :class="prejuizo >= 0 ? 'text-red-600' : 'text-gray-500'" class="text-3xl font-bold">
-              R$ {{ prejuizo.toFixed(2) }}
+            <p :class="stats.loss >= 0 ? 'text-red-600' : 'text-gray-500'" class="text-3xl font-bold">
+              R$ {{ stats.loss.toFixed(2) }}
             </p>
           </div>
         </div>
-        <div class="flex space-x-4">
-          <Link class="btn btn-primary" :href="route('bets.create')">Cadastrar Nova Aposta</Link>
-        </div>
       </div>
-
+      <hr v-if="$page.props.auth.user" class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded-sm md:my-10 dark:bg-gray-700">
       <div class="p-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-white rounded-2xl p-6 shadow">

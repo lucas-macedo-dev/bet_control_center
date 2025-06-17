@@ -2,23 +2,27 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\BetRequest;
+use App\Http\Resources\BetResource;
+use App\Models\Bet;
 use Inertia\Inertia;
-use PhpParser\Node\Stmt\Return_;
+use Illuminate\Http\Request;
+use App\Http\Services\BetService;
+use Illuminate\Routing\Controller;
 
 class BetController extends Controller
 {
-    public function __construct()
+    protected BetService $betService;
+    public function __construct(BetService $betService)
     {
-        $this->middleware('auth:sanctum');
+        $this->betService = $betService;
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('Bets/List');
+        return Inertia::render('Bets/List', ['bets' => BetResource::collection(Bet::with('user')->get())->resolve()]);
     }
 
     /**
@@ -32,23 +36,28 @@ class BetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BetRequest $request)
     {
-        $data = $request->validate([
-            'valor_apostado' => 'required|numeric|min:0',
-            'valor_retorno' => 'required|numeric|min:0',
-            'descricao' => 'nullable|string|max:255',
-        ]);
+        $validated = $request->validated();
 
-        $request->user()->bets()->create($data);
-
-        return redirect()->route('dashboard')->with('success', 'Aposta cadastrada com sucesso!');
+        if ($request->user()->bets()->create($validated)) {
+            return redirect()->route('dashboard')->with('success', 'Aposta cadastrada com sucesso!');
+        } else {
+            return redirect()->back()->with('error', 'Falha ao cadastrar a aposta.');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id) {}
+    public function show(string $id)
+    {
+        if ($id) {
+            $bets = Bet::where('id', '=', $id)->toArray();
+        }
+
+        return Inertia::render('Bets/List', ['bets' => new BetResource($bets) ?? []]);
+    }
 
     /**
      * Show the form for editing the specified resource.

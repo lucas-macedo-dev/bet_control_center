@@ -9,13 +9,13 @@ class DashboardController extends Controller
 {
     public function index()
     {
-                if (Auth::check()) {
+        if (Auth::check()) {
             $user = Auth::user();
 
             $stats = [
-                'total_apostado' => $user->bets()->sum('valor_apostado'),
-                'total_recebido' => $user->bets()->sum('valor_retorno'),
-                'prejuizo' => $user->bets()->sum('valor_apostado') - $user->bets()->sum('valor_retorno'),
+                'bet_value' => $user->bets()->sum('bet_value'),
+                'value_received' => $user->bets()->sum('value_received'),
+                'loss' => $user->bets()->sum('bet_value') - $user->bets()->sum('value_received'),
             ];
 
             return Inertia::render('Dashboard', [
@@ -26,9 +26,9 @@ class DashboardController extends Controller
 
         // Dados globais fictícios para usuários deslogados
         $dadosGlobais = [
-            'perdas_mundiais' => 'US$ 500 bilhões/ano',
-            'vicio_estatistica' => '1 em cada 5 jovens se torna dependente',
-            'suicidios_relacionados' => 'Mais de 2000/ano globalmente',
+            'global_losses' => 'US$ 500 bilhões/ano',
+            'addiction_statistics' => '1 em cada 5 jovens se torna dependente',
+            'related_suicides' => 'Mais de 2000/ano globalmente',
         ];
 
         return Inertia::render('Dashboard', [
