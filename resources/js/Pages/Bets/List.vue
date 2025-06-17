@@ -5,7 +5,6 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 
 const page = usePage();
 const bets = page.props.bets || [];
-console.log(bets);
 
 </script>
 

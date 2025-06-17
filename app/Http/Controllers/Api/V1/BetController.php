@@ -22,7 +22,10 @@ class BetController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Bets/List', ['bets' => BetResource::collection(Bet::with('user')->get())->resolve()]);
+        $bets = Bet::with('user')
+            ->where('user_id', '=', auth()->user()->id)
+            ->get();
+        return Inertia::render('Bets/List', ['bets' => BetResource::collection($bets)->resolve()]);
     }
 
     /**
